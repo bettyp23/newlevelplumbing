@@ -1,0 +1,19 @@
+{
+  "name": "new-level-plumbing-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static website and Vercel lead endpoint for New Level Plumbing.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "check": "node --check main.js && node --check api/lead.js"
+  },
+  "dependencies": {
+    "resend": "^4.0.0",
+    "twilio": "^5.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^39.0.0"
+  }
+}
