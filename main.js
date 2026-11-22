@@ -1,23 +1,20 @@
 (() => {
   const menuButton = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
+  const setMenuOpen = open => {
+    if (!menuButton || !nav) return;
+    nav.classList.toggle('is-open', open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    menuButton.textContent = open ? '✕' : '☰';
+  };
   if (menuButton && nav) {
-    menuButton.addEventListener('click', () => {
-      const open = nav.classList.toggle('is-open');
-      menuButton.setAttribute('aria-expanded', String(open));
-      menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
-    });
-    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      menuButton.setAttribute('aria-expanded', 'false');
-      menuButton.setAttribute('aria-label', 'Open navigation');
-    }));
+    menuButton.addEventListener('click', () => setMenuOpen(!nav.classList.contains('is-open')));
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
   }
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
-      nav?.classList.remove('is-open');
-      menuButton?.setAttribute('aria-expanded', 'false');
-      menuButton?.setAttribute('aria-label', 'Open navigation');
+      setMenuOpen(false);
       document.querySelectorAll('.dropdown.open').forEach(dropdown => {
         dropdown.classList.remove('open');
         dropdown.querySelector('.dropdown-toggle')?.setAttribute('aria-expanded', 'false');
@@ -35,7 +32,7 @@
   const cards = [...document.querySelectorAll('.review-card')];
   let reviewStart = 0;
   const updateReviews = () => {
-    const compact = window.matchMedia('(max-width: 760px)').matches;
+    const compact = window.matchMedia('(max-width: 860px)').matches;
     cards.forEach((card, index) => { card.hidden = compact && index !== reviewStart; });
   };
   document.querySelectorAll('[data-review-shift]').forEach(button => button.addEventListener('click', () => {
